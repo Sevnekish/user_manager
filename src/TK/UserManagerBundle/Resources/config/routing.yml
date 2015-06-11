@@ -1,0 +1,3 @@
+tk_user_manager_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: TKUserManagerBundle:Default:index }
