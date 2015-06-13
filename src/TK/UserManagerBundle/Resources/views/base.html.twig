@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {{ include('TKUserManagerBundle:Layouts:_stylesheets.html.twig') }}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+  </head>
+  <body>
+
+    {% include('TKUserManagerBundle:Layouts:_header.html.twig') %}
+
+    {% block content %}{% endblock %}
+
+    {% include('TKUserManagerBundle:Layouts:_footer.html.twig') %}
+
+    {% block javascripts %}
+      {% javascripts '@jquery_js' '@bootstrap_js' filter='?yui_js' combine=true %}
+        <script src="{{ asset_url }}"></script>
+      {% endjavascripts %}
+    {% endblock %}
+
+  </body>
+</html>

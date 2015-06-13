@@ -38,18 +38,87 @@ twig:
 
 # Assetic Configuration
 assetic:
-    debug:          "%kernel.debug%"
+    debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ ]
-    #java: /usr/bin/java
+    bundles:        [TKUserManagerBundle]
+    java: /usr/bin/java
     filters:
         cssrewrite: ~
-        sass:
-            bin: /usr/local/bin/sass
-            apply_to: "\.scss$"
+        cssembed:
+          jar: %kernel.root_dir%/Resources/java/cssembed-0.4.5.jar
+        yui_js:
+          jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
+        lessphp:
+             file: %kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php
+             apply_to: "\.less$"
+    assets:
+        jquery_js:
+            inputs:
+                - '%kernel.root_dir%/../vendor/components/jquery/jquery.min.js'
+            filters: [?yui_js]
+        bootstrap_js:
+            inputs:
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/transition.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/alert.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/modal.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/dropdown.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/scrollspy.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/tab.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/tooltip.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/popover.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/button.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/collapse.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/carousel.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/affix.js'
+            filters: [?yui_js]
 
-braincrafted_bootstrap:
-    less_filter: sass
+        glyphicons-halflings-regular-eot:
+            inputs: '%kernel.root_dir%/../vendor/twitter/bootstrap/fonts/glyphicons-halflings-regular.eot'
+            output: 'fonts/glyphicons-halflings-regular.eot'
+        glyphicons-halflings-regular-svg:
+            inputs: '%kernel.root_dir%/../vendor/twitter/bootstrap/fonts/glyphicons-halflings-regular.svg'
+            output: 'fonts/glyphicons-halflings-regular.svg'
+        glyphicons-halflings-regular-ttf:
+            inputs: '%kernel.root_dir%/../vendor/twitter/bootstrap/fonts/glyphicons-halflings-regular.ttf'
+            output: 'fonts/glyphicons-halflings-regular.ttf'
+        glyphicons-halflings-regular-woff:
+            inputs: '%kernel.root_dir%/../vendor/twitter/bootstrap/fonts/glyphicons-halflings-regular.woff'
+            output: 'fonts/glyphicons-halflings-regular.woff'
+        glyphicons-halflings-regular-woff2:
+            inputs: '%kernel.root_dir%/../vendor/twitter/bootstrap/fonts/glyphicons-halflings-regular.woff2'
+            output: 'fonts/glyphicons-halflings-regular.woff2'
+
+        font-awesome-otf:
+            inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/FontAwesome.otf'
+            output: 'fonts/FontAwesome.otf'
+        font-awesome-eot:
+            inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.eot'
+            output: 'fonts/fontawesome-webfont.eot'
+        font-awesome-svg:
+            inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.svg'
+            output: 'fonts/fontawesome-webfont.svg'
+        font-awesome-ttf:
+            inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.ttf'
+            output: 'fonts/fontawesome-webfont.ttf'
+        font-awesome-woff:
+            inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.woff'
+            output: 'fonts/fontawesome-webfont.woff'
+        font-awesome-woff2:
+            inputs: '%kernel.root_dir%/../vendor/fortawesome/font-awesome/fonts/fontawesome-webfont.woff2'
+            output: 'fonts/fontawesome-webfont.woff2'
+
+        bootstrap_less:
+            inputs:
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/less/theme.less'
+            filters: [lessphp,cssembed]
+
+        fontawesome_less:
+            inputs:
+                - '%kernel.root_dir%/../vendor/fortawesome/font-awesome/less/font-awesome.less'
+            filters: [lessphp,cssembed]
+
+
 
 # Doctrine Configuration
 doctrine:
@@ -70,8 +139,8 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
+        naming_strategy:             doctrine.orm.naming_strategy.underscore
+        auto_mapping:                true
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -82,7 +151,7 @@ swiftmailer:
     spool:     { type: memory }
 
 doctrine_migrations:
-    dir_name: %kernel.root_dir%/DoctrineMigrations
-    namespace: Application\Migrations
+    dir_name:   %kernel.root_dir%/DoctrineMigrations
+    namespace:  Application\Migrations
     table_name: migration_versions
-    name: Application Migrations
+    name:       Application Migrations
