@@ -1,0 +1,35 @@
+TK\UserManagerBundle\Entity\UserAddress:
+    type: entity
+    repositoryClass: TK\UserManagerBundle\Repository\UserAddressRepository
+    table: userAddresses
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        zip:
+            type: integer
+            length: 11
+        city:
+            type: string
+            length: 255
+        address:
+            type: string
+            length: 255
+        createdAt:
+            type: datetime
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+    manyToOne:
+        user:
+            targetEntity: User
+            inversedBy: userAddresses
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+    lifecycleCallbacks:
+        prePersist: [setCreatedAtValue]
+        preUpdate: [setUpdatedAtValue]

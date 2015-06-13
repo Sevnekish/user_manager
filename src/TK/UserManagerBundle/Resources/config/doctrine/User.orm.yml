@@ -1,0 +1,51 @@
+TK\UserManagerBundle\Entity\User:
+    type: entity
+    repositoryClass: TK\UserManagerBundle\Repository\UserRepository
+    table: users
+    indexes:
+        email_index:
+            columns: [ email ]
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        firstName:
+            type: string
+            length: 255
+            column: first_name
+        lastName:
+            type: string
+            length: 255
+            column: last_name
+        age:
+            type: integer
+            length: 11
+        email:
+            type: string
+            length: 255
+            unique: true
+        password:
+            type: string
+            length: 255
+        createdAt:
+            type: datetime
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: true
+            column: updated_at
+    manyToOne:
+        userRole:
+            targetEntity: UserRole
+            inversedBy: users
+            joinColumn:
+                name: role_id
+                referencedColumnName: id
+    oneToMany:
+        userAddresses:
+            targetEntity: UserAddress
+            mappedBy: user
+    lifecycleCallbacks:
+        prePersist: [setCreatedAtValue]
+        preUpdate: [setUpdatedAtValue]

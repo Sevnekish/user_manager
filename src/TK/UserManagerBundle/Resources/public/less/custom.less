@@ -1,0 +1,38 @@
+/* mixins, variables, etc. */
+
+@gray-medium-light: #eaeaea;
+@gray-light: #777777;
+@white: #fff;
+
+/* universal */
+.center {
+  text-align: center;
+  h1 {
+    margin-bottom: 10px;
+  }
+}
+
+/* footer */
+
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  border-top: 1px solid @gray-medium-light;
+  color: @gray-light;
+  a {
+    &:hover {
+      color: #222;
+    }
+  }
+  small {
+    float: left;
+  }
+  ul {
+    float: right;
+    list-style: none;
+    li {
+      float: left;
+      margin-left: 15px;
+    }
+  }
+}
