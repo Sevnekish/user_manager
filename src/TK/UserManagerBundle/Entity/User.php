@@ -3,6 +3,8 @@
 namespace TK\UserManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use TK\UserManagerBundle\Entity\UserAddress;
 
 /**
  * User
@@ -194,10 +196,15 @@ class User
 
     /**
      * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return User
      */
-    public function setCreatedAt()
+    public function setCreatedAt($createdAt)
     {
-        $this->createdAt = new \DateTime('now');
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**
@@ -212,11 +219,17 @@ class User
 
     /**
      * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return User
      */
-    public function setUpdatedAt()
+    public function setUpdatedAt($updatedAt)
     {
-        $this->updatedAt = new \DateTime('now');
+        $this->updatedAt = $updatedAt;
+
+        return $this;
     }
+
 
     /**
      * Get updatedAt
@@ -231,30 +244,52 @@ class User
     /**
      * Add userAddresses
      *
-     * @param \TK\UserManagerBundle\Entity\UserAddress $userAddresses
-     * @return User
+     * @param UserAddress $userAddress
+     * @return userAddresses
      */
-    public function addUserAddress(\TK\UserManagerBundle\Entity\UserAddress $userAddresses)
+    public function addUserAddress(UserAddress $userAddress)
     {
-        $this->userAddresses[] = $userAddresses;
+        if ( ! $this->userAddresses->contains($userAddress)) {
+            $userAddress->setUser($this);
+            $this->userAddresses->add($userAddress);
+        }
 
-        return $this;
+        return $this->userAddresses;
     }
 
     /**
      * Remove userAddresses
      *
-     * @param \TK\UserManagerBundle\Entity\UserAddress $userAddresses
+     * @param UserAddress $userAddresses
+     * @return userAddresses
      */
-    public function removeUserAddress(\TK\UserManagerBundle\Entity\UserAddress $userAddresses)
+    public function removeUserAddress(UserAddress $userAddress)
     {
-        $this->userAddresses->removeElement($userAddresses);
+        if ($this->userAddresses->contains($userAddress)) {
+            $this->userAddresses->removeElement($userAddress);
+        }
+
+        return $this->userAddresses;
+    }
+
+
+    /**
+     * Set userAddresses
+     *
+     * @param Collection $userAddresses
+     * @return $this
+     */
+    public function setUserAddresses(Collection $userAddresses)
+    {
+        $this->userAddresses = $userAddresses;
+
+        return $this;
     }
 
     /**
      * Get userAddresses
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return Collection 
      */
     public function getUserAddresses()
     {
@@ -283,12 +318,13 @@ class User
     {
         return $this->userRole;
     }
+
     /**
      * @ORM\PrePersist
      */
     public function setCreatedAtValue()
     {
-        // Add your code here
+        $this->createdAt = new \DateTime('now');
     }
 
     /**
@@ -296,6 +332,6 @@ class User
      */
     public function setUpdatedAtValue()
     {
-        // Add your code here
+        $this->updatedAt = new \DateTime('now');
     }
 }

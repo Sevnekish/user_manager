@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>{% block title %}Welcome!{% endblock %}</title>
     {{ include('TKUserManagerBundle:Layouts:_stylesheets.html.twig') }}
+    {% block extra_stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
   </head>
   <body>
@@ -17,6 +18,7 @@
     </div>
 
     {% include('TKUserManagerBundle:Layouts:_scripts.html.twig') %}
-
+    {% block extra_scripts %}{% endblock %}
+    
   </body>
 </html>

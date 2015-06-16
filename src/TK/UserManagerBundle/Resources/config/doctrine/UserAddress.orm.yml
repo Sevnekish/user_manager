@@ -8,8 +8,8 @@ TK\UserManagerBundle\Entity\UserAddress:
             generator: { strategy: AUTO }
     fields:
         zip:
-            type: integer
-            length: 11
+            type: string
+            length: 255
         city:
             type: string
             length: 255
@@ -19,10 +19,12 @@ TK\UserManagerBundle\Entity\UserAddress:
         createdAt:
             type: datetime
             column: created_at
+            nullable: true
         updatedAt:
             type: datetime
             nullable: true
             column: updated_at
+            nullable: true
     manyToOne:
         user:
             targetEntity: User

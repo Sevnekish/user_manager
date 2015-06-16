@@ -126,10 +126,15 @@ class UserAddress
 
     /**
      * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return User
      */
-    public function setCreatedAt()
+    public function setCreatedAt($createdAt)
     {
-        $this->createdAt = new \DateTime('now');
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**
@@ -144,10 +149,15 @@ class UserAddress
 
     /**
      * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return User
      */
-    public function setUpdatedAt()
+    public function setUpdatedAt($updatedAt)
     {
-        $this->updatedAt = new \DateTime('now');
+        $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 
     /**
@@ -163,11 +173,14 @@ class UserAddress
     /**
      * Set user
      *
-     * @param \TK\UserManagerBundle\Entity\User $user
+     * @param $user
      * @return UserAddress
      */
-    public function setUser(\TK\UserManagerBundle\Entity\User $user = null)
+    public function setUser($user)
     {
+        if ( !$user instanceof User && $user !== null) {
+            throw new \InvalidArgumentException('$User must be an instance of User, or null');
+        }
         $this->user = $user;
 
         return $this;
@@ -187,7 +200,7 @@ class UserAddress
      */
     public function setCreatedAtValue()
     {
-        // Add your code here
+        $this->createdAt = new \DateTime('now');
     }
 
     /**
@@ -195,6 +208,6 @@ class UserAddress
      */
     public function setUpdatedAtValue()
     {
-        // Add your code here
+        $this->updatedAt = new \DateTime('now');
     }
 }

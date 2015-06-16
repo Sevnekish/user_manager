@@ -1,3 +1,4 @@
 tk_user_manager:
-    resource: "@TKUserManagerBundle/Resources/config/routing.yml"
+    resource: "@TKUserManagerBundle/Controller/"
+    type:     annotation
     prefix:   /

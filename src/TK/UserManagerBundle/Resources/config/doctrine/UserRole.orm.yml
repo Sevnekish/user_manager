@@ -14,10 +14,12 @@ TK\UserManagerBundle\Entity\UserRole:
         createdAt:
             type: datetime
             column: created_at
+            nullable: true
         updatedAt:
             type: datetime
             nullable: true
             column: updated_at
+            nullable: true
     oneToMany:
         users:
             targetEntity: User

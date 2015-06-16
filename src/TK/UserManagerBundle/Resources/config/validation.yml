@@ -1,0 +1,71 @@
+TK\UserManagerBundle\Entity\User:
+    constraints:
+            - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+                groups: [create]
+                fields: [email]
+    properties:
+        firstName:
+            - NotBlank:
+                groups: [create]
+            - Type:
+                groups: [create]
+                type: string
+            - Length:
+                groups: [create]
+                min: 2
+                max: 50
+        lastName:
+            - NotBlank:
+                groups: [create]
+            - Type:
+                groups: [create]
+                type: string
+            - Length:
+                groups: [create]
+                min: 2
+                max: 50
+        age:
+            - NotBlank:
+                groups: [create]
+            - Range:
+                groups: [create]
+                min: 18
+                max: 130
+        email:
+            - NotBlank:
+                groups: [create]
+            - Email:
+                groups: [create]
+                message: The email {{ value }} is not a valid email.
+                checkMX: true
+        password:
+            - NotBlank:
+                groups: [create]
+            - Length: 
+                groups: [create]
+                min: 6
+                max: 100
+
+TK\UserManagerBundle\Entity\UserAddress:
+    properties:
+        zip:
+            - NotBlank:
+                groups: [create]
+            - Length: 
+                groups: [create]
+                min: 1
+                max: 16
+        city:
+            - NotBlank:
+                groups: [create]
+            - Length: 
+                groups: [create]
+                min: 2
+                max: 130
+        address:
+            - NotBlank:
+                groups: [create]
+            - Length: 
+                groups: [create]
+                min: 6
+                max: 130

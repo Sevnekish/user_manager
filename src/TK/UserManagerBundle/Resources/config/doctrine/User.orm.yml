@@ -31,10 +31,12 @@ TK\UserManagerBundle\Entity\User:
         createdAt:
             type: datetime
             column: created_at
+            nullable: true
         updatedAt:
             type: datetime
             nullable: true
             column: updated_at
+            nullable: true
     manyToOne:
         userRole:
             targetEntity: UserRole
@@ -46,6 +48,7 @@ TK\UserManagerBundle\Entity\User:
         userAddresses:
             targetEntity: UserAddress
             mappedBy: user
+            cascade: [ persist, remove ]
     lifecycleCallbacks:
         prePersist: [setCreatedAtValue]
         preUpdate: [setUpdatedAtValue]

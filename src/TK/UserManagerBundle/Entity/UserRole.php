@@ -77,10 +77,15 @@ class UserRole
 
     /**
      * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return User
      */
-    public function setCreatedAt()
+    public function setCreatedAt($createdAt)
     {
-        $this->createdAt = new \DateTime('now');
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**
@@ -95,10 +100,15 @@ class UserRole
 
     /**
      * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return User
      */
-    public function setUpdatedAt()
+    public function setUpdatedAt($updatedAt)
     {
-        $this->updatedAt = new \DateTime('now');
+        $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 
     /**
@@ -148,7 +158,7 @@ class UserRole
      */
     public function setCreatedAtValue()
     {
-        // Add your code here
+        $this->createdAt = new \DateTime('now');
     }
 
     /**
@@ -156,6 +166,6 @@ class UserRole
      */
     public function setUpdatedAtValue()
     {
-        // Add your code here
+        $this->updatedAt = new \DateTime('now');
     }
 }
