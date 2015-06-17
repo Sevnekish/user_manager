@@ -8377,3 +8377,28 @@ footer ul li {
   float: left;
   margin-left: 15px;
 }
+/* Profile */
+.panel-heading.profile {
+  height: 50px;
+}
+/* index */
+.index-title h1 {
+  display: inline;
+}
+.index-title .add-user {
+  margin-bottom: 16px;
+  margin-left: 12px;
+}
+.sorted {
+  text-decoration: underline;
+}
+/* Create Edit forms */
+ul.userAddresses {
+  list-style-type: none;
+}
+ul.userAddresses .addressButtons {
+  margin-top: 26px;
+}
+ul.userAddresses .addressButtons .add {
+  margin-left: 5px;
+}

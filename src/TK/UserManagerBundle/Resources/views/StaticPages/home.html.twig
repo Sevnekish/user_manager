@@ -1,7 +1,7 @@
 {% extends 'TKUserManagerBundle::base.html.twig' %}
 
 
-{% block title %}TKUserManagerBundle:StaticPages:home{% endblock %}
+{% block title %}TKUserManagerBundle{% endblock %}
 
 {% block content %}
 <div class="center jumbotron">
@@ -12,7 +12,6 @@
     <a href="https://github.com/Sevnekish/user_manager">TKUserManager</a> app
   </h2>
   <br>
-  <a href="" class="btn btn-lg btn-primary">Sign up now!</a>
+  <a href="{{ path('user_new') }}" class="btn btn-lg btn-primary">Sign up now!</a>
 </div>
-
 {% endblock %}

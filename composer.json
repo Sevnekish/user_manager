@@ -22,10 +22,13 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "doctrine/migrations":                  "1.0.*@dev",
         "doctrine/doctrine-migrations-bundle":  "2.1.*@dev",
+        "doctrine/doctrine-fixtures-bundle":    "2.2.*",
+        "hautelook/alice-bundle":               "0.2",
+        "knplabs/knp-paginator-bundle":         "2.4.2",
         "fortawesome/font-awesome":             "4.3.0",
         "oyejorge/less.php":                    "~1.5",
         "twitter/bootstrap":                    "*",
-        "components/jquery":                    "2.1.4"
+        "components/jquery":                    "1.9.1"
 
     },
     "require-dev": {

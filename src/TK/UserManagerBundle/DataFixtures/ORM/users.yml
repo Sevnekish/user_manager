@@ -1,0 +1,20 @@
+TK\UserManagerBundle\Entity\User:
+  user1:
+    firstName: Tom
+    lastName:  Hanks
+    age:       58
+    email:     tonhanks123@gmail.com
+    password:  tonhanks123
+    createdAt: <date()>
+    updatedAt: <date()>
+    userRole:  @role_admin
+
+  user{2..100}:
+    firstName: <name()>
+    lastName:  <lastName()>
+    age:       <numberBetween(18, 64)>
+    email:     <email()>
+    password:  <password()>
+    createdAt: <date()>
+    updatedAt: <date()>
+    userRole:  @role_*

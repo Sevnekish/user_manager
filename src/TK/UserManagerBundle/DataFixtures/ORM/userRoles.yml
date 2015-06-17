@@ -1,0 +1,13 @@
+TK\UserManagerBundle\Entity\UserRole:
+  role_user:
+    name:      USER
+    createdAt: <date()>
+    updatedAt: <date()>
+  role_admin:
+    name:      ADMIN
+    createdAt: <date()>
+    updatedAt: <date()>
+  role_manager:
+    name:      MANAGER
+    createdAt: <date()>
+    updatedAt: <date()>

@@ -144,7 +144,7 @@ class UserAddress
      */
     public function getCreatedAt()
     {
-        return $this->createdAt;
+        return $this->createdAt->format('Y-m-d H:i:s');
     }
 
     /**
@@ -167,7 +167,7 @@ class UserAddress
      */
     public function getUpdatedAt()
     {
-        return $this->updatedAt;
+        return $this->updatedAt->format('Y-m-d H:i:s');
     }
 
     /**
@@ -201,6 +201,7 @@ class UserAddress
     public function setCreatedAtValue()
     {
         $this->createdAt = new \DateTime('now');
+        $this->updatedAt = new \DateTime('now');
     }
 
     /**

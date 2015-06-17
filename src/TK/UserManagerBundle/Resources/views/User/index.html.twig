@@ -1,53 +1,87 @@
 {% extends 'TKUserManagerBundle::base.html.twig' %}
 
+
 {% block content -%}
-    <h1>User list</h1>
+  <div class="row">
+    <div class="col-md-6 index-title">
+      <h1>Total users: {{ pagination.getTotalItemCount }}</h1>
+      <a href="{{ path('user_new') }}" class="btn btn-success add-user">
+        <span class="fa fa-user-plus fa-lg"></span> Add user
+      </a>
+    </div>
+  </div>
 
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Age</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Createdat</th>
-                <th>Updatedat</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('user_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.firstName }}</td>
-                <td>{{ entity.lastName }}</td>
-                <td>{{ entity.age }}</td>
-                <td>{{ entity.email }}</td>
-                <td>{{ entity.userRole.getName }}</td>
-                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('user_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('user_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+  <div class="table-responsive">
 
-        <ul>
-        <li>
-            <a href="{{ path('user_new') }}">
-                Create a new entry
+    <table id="records_list" class="table table-bordred table-striped records_list">
+      <thead>
+        <tr>
+          {% set direction = pagination.getDirection() %}
+          <th {% if pagination.isSorted('user.id') %}class="sorted {{ direction }}"{% endif %}>
+            {{ knp_pagination_sortable(pagination, 'Id', 'user.id') }}
+          </th>
+          <th {% if pagination.isSorted('user.firstName') %}class="sorted {{ direction }}"{% endif %}>
+            {{ knp_pagination_sortable(pagination, 'FirstName', 'user.firstName') }}
+          </th>
+          <th {% if pagination.isSorted('user.lastName') %}class="sorted {{ direction }}"{% endif %}>
+            {{ knp_pagination_sortable(pagination, 'LastName', 'user.lastName') }}
+          </th>
+          <th {% if pagination.isSorted('user.age') %}class="sorted {{ direction }}"{% endif %}>
+            {{ knp_pagination_sortable(pagination, 'Age', 'user.age') }}
+          </th>
+          <th {% if pagination.isSorted('user.email') %}class="sorted {{ direction }}"{% endif %}>
+            {{ knp_pagination_sortable(pagination, 'Email', 'user.email') }}
+          </th>
+          <th {% if pagination.isSorted('role.name') %}class="sorted {{ direction }}"{% endif %}>
+            {{ knp_pagination_sortable(pagination, 'UserRole', 'role.name') }}
+          </th>
+          <th {% if pagination.isSorted('user.createdAt') %}class="sorted {{ direction }}"{% endif %}>
+            {{ knp_pagination_sortable(pagination, 'CreatedAt', 'user.createdAt') }}
+          </th>
+          <th {% if pagination.isSorted('user.updatedAt') %}class="sorted {{ direction }}"{% endif %}>
+            {{ knp_pagination_sortable(pagination, 'UpdatedAt', 'user.updatedAt') }}
+          </th>
+          <th>Show</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for user in pagination %}
+        <tr>
+          <td><a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.age }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.userRole.getName }}</td>
+          <td>{% if user.createdAt %}{{ user.getCreatedAt }}{% endif %}</td>
+          <td>{% if user.updatedAt %}{{ user.getUpdatedAt }}{% endif %}</td>
+          <td>
+            <a href="{{ path('user_show', { 'id': user.id }) }}" class="btn btn-primary btn-xs">
+              <span class="glyphicon glyphicon-user"></span>
             </a>
-        </li>
-    </ul>
-    {% endblock %}
+          </td>
+          <td>
+              <a href="{{ path('user_edit', { 'id': user.id }) }}" class="btn btn-primary btn-xs">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </a>
+          </td>
+          <td>
+            
+            {{ form_start(deleteForms[loop.index-1]) }}
+            {{ form_row(deleteForms[loop.index-1].submit, {'attr': {'class': 'btn btn-danger btn-xs delete'}}) }}
+            {{ form_end(deleteForms[loop.index-1]) }}
+
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
+  {# display navigation #}
+  <div class="navigation text-center">
+    {{ knp_pagination_render(pagination) }}
+  </div>
+{% endblock %}

@@ -24,7 +24,8 @@
     }
 
     addFormAddLink($userAddressesLis.last(), $collectionHolder, index);
-
+    
+    updateAddressRules();
   }
 
   function addFormAddLink($userAddressLi, $collectionHolder, index) {

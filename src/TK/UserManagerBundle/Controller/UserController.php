@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use TK\UserManagerBundle\Entity\User;
 use TK\UserManagerBundle\Form\UserType;
 
@@ -28,14 +29,39 @@ class UserController extends Controller
    * @Method("GET")
    * @Template()
    */
-  public function indexAction()
+  public function indexAction(Request $request)
   {
     $em = $this->getDoctrine()->getManager();
 
-    $entities = $em->getRepository('TKUserManagerBundle:User')->findAll();
+    // $entities = $em->getRepository('TKUserManagerBundle:User')->findAll();
 
+    // $dql   = "SELECT user
+    //           FROM TKUserManagerBundle:User user 
+    //           ORDER BY user.id DESC";
+    $dql   = "SELECT user
+              FROM TKUserManagerBundle:User user
+              JOIN user.userRole role
+              ORDER BY user.id DESC";
+    
+    // exit(\Doctrine\Common\Util\Debug::dump($queryBuilder));
+    $query = $em->createQuery($dql);
+
+    $paginator  = $this->get('knp_paginator');
+    $pagination = $paginator->paginate(
+        $query,
+        $request->query->getInt('page', 1)/*page number*/,
+        10/*limit per page*/
+    );
+
+    $deleteForms = array();
+
+    foreach ($pagination->getItems() as $user) {
+      $deleteForm = $this->createDeleteForm($user->getId());
+      $deleteForms[] = $deleteForm->createView();
+    }
     return array(
-      'entities' => $entities,
+      'pagination'  => $pagination,
+      'deleteForms' => $deleteForms,
     );
   }
   /**
@@ -48,13 +74,8 @@ class UserController extends Controller
   public function createAction(Request $request)
   {
     $entity = new User();
-    $form = $this->createCreateForm($entity);
+    $form   = $this->createCreateForm($entity);
 
-    // $form->handleRequest($request);
-    // if ($form->isValid()) {
-    //     echo '<pre>';
-    //     exit(\Doctrine\Common\Util\Debug::dump($entity));
-    // }
 
     $form->handleRequest($request);
 
@@ -85,16 +106,6 @@ class UserController extends Controller
 
     $address1 = new UserAddress();
     $entity->getUserAddresses()->add($address1);
-
-    // $address1 = new UserAddress();
-    // $address1->setZip('12345');
-    // $address1->setCity('Kiev');
-    // $entity->getUserAddresses()->add($address1);
-
-    // $address2 = new UserAddress();
-    // $address2->setZip('3245');
-    // $address2->setCity('Moscow');
-    // $entity->getUserAddresses()->add($address2);
 
     $form   = $this->createCreateForm($entity);
 
@@ -146,12 +157,12 @@ class UserController extends Controller
       throw $this->createNotFoundException('Unable to find User entity.');
     }
 
-    $editForm = $this->createEditForm($entity);
+    $editForm   = $this->createEditForm($entity);
     $deleteForm = $this->createDeleteForm($id);
 
     return array(
       'entity'      => $entity,
-      'edit_form'   => $editForm->createView(),
+      'form'        => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     );
   }
@@ -185,13 +196,6 @@ class UserController extends Controller
     $editForm = $this->createEditForm($entity);
     $editForm->handleRequest($request);
 
-    /////////////////////////////
-    // if ($editForm->isValid()) {
-    //     echo '<pre>';
-    //     exit(\Doctrine\Common\Util\Debug::dump($originalUserAddresses));
-    // }
-    ///////////////////////////
-
     if ($editForm->isValid()) {
 
       $password = $editForm->get('password')->getData();
@@ -204,25 +208,18 @@ class UserController extends Controller
           $entity->removeUserAddress($originalUserAddress);
           $originalUserAddress->setUser(null);
           $em->remove($originalUserAddress);
-          // $em->persist($originalUserAddress);
         }
       }
-      /////////////////////////////
-      // if ($editForm->isValid()) {
-      //     echo '<pre>';
-      //     exit(\Doctrine\Common\Util\Debug::dump($originalUserAddresses));
-      // }
-      ///////////////////////////
+
       $em->persist($entity);
       $em->flush();
 
       return $this->redirect($this->generateUrl('user_show', array('id' => $entity->getId())));
-      // return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
     }
 
     return array(
       'entity'      => $entity,
-      'edit_form'   => $editForm->createView(),
+      'form'   => $editForm->createView(),
       'delete_form' => $deleteForm->createView(),
     );
   }
@@ -265,6 +262,9 @@ class UserController extends Controller
       'validation_groups' => array('create'),
       'action' => $this->generateUrl('user_create'),
       'method' => 'POST',
+      'attr'   => array(
+                        'id' =>'createForm'
+      ),
     ));
     $form->add('password', 'repeated', array(
               'validation_groups' => array('create'),
@@ -275,14 +275,6 @@ class UserController extends Controller
               'first_options'  => array('label' => 'Password'),
               'second_options' => array('label' => 'Repeat Password')
     ));
-    // $form->add('password', 'repeated', array(
-    //           'type' => 'password',
-    //           'invalid_message' => 'The password fields must match.',
-    //           'options' => array('attr' => array('class' => 'password-field')),
-    //           'required' => false,
-    //           'first_options'  => array('label' => 'Password'),
-    //           'second_options' => array('label' => 'Repeat Password')
-    // ));
 
     $form->add('submit', 'submit', array('label' => 'Create'));
 
@@ -301,9 +293,13 @@ class UserController extends Controller
     $form = $this->createForm(new UserType(), $entity, array(
       'action' => $this->generateUrl('user_update', array('id' => $entity->getId())),
       'method' => 'PUT',
+      'attr'   => array(
+                        'id' =>'editForm'
+      ),
     ));
 
     $form->add('password', 'repeated', array(
+              'validation_groups' => array('edit'),
               'type' => 'password',
               'invalid_message' => 'The password fields must match.',
               'options' => array('attr' => array('class' => 'password-field')),

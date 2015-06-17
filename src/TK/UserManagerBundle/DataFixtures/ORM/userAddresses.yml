@@ -1,0 +1,24 @@
+TK\UserManagerBundle\Entity\UserAddress:
+  address1:
+    zip:       UL 34233
+    city:      London
+    address:   Miami Beach 314b
+    createdAt: <date()>
+    updatedAt: <date()>
+    user:      @user1
+
+  address{2..100}:
+    zip:       <postcode()>
+    city:      <city()>
+    address:   <streetAddress()>
+    createdAt: <date()>
+    updatedAt: <date()>
+    user:      @user<current()>
+
+  address{101..160}:
+    zip:       <postcode()>
+    city:      <city()>
+    address:   <streetAddress()>
+    createdAt: <date()>
+    updatedAt: <date()>
+    user:      @user*
