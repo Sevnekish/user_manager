@@ -8356,6 +8356,10 @@ button.close {
 .center h1 {
   margin-bottom: 10px;
 }
+/* messages */
+#messages {
+  list-style: none;
+}
 /* footer */
 footer {
   margin-top: 45px;
@@ -8401,4 +8405,21 @@ ul.userAddresses .addressButtons {
 }
 ul.userAddresses .addressButtons .add {
   margin-left: 5px;
+}
+/* Sign in form */
+#forgot-pass {
+  font-size: 80%;
+  top: -10px;
+}
+#login-body {
+  padding-top: 30px;
+}
+#email-field,
+#password-field {
+  margin-bottom: 25px;
+}
+#signup-link {
+  border-top: 1px solid#888;
+  padding-top: 15px;
+  font-size: 85%;
 }

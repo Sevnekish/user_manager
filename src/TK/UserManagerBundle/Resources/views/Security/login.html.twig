@@ -1,0 +1,61 @@
+{% extends 'TKUserManagerBundle::base.html.twig' %}
+
+{% block content -%}
+<div class="row">
+  <div id="loginbox" class="col-md-6 col-md-offset-3">
+    <div class="panel panel-info" >
+        <div class="panel-heading">
+          <div class="panel-title">Sign In</div>
+          <div id="forgot-pass" class="text-right"><a href="#">Forgot password?</a></div>
+        </div>     
+
+        <div id="login-body" class="panel-body" >
+
+          <form id="loginform" class="form-horizontal" role="form" action="{{ path('login_check') }}" method="POST">
+
+            {% if error_pass %}
+                <div class="alert alert-danger">Invalid email/password combination</div>
+            {% endif %}
+              
+            <div id="email-field" class="input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-user"></i>
+              </span>
+              <input id="login-email" type="email" class="form-control" name="_username" value="{{ last_username }}" placeholder="email">
+            </div>
+
+            <div id="password-field" class="input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-lock"></i>
+              </span>
+              <input id="login-password" type="password" class="form-control" name="_password" placeholder="password">
+            </div>
+                
+
+              <br>
+              <div class="form-group">
+                <div class="col-sm-12 controls">
+                  <button type="submit" class="btn btn-success">Login</button>
+                </div>
+              </div>
+
+
+              <div class="form-group">
+                <div class="col-md-12 control">
+                  <div id="signup-link">
+                    Don't have an account? 
+                    <a href="{{ path('user_new') }}" >
+                      Sign Up Here
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+
+
+          </div>
+        </div>
+  </div>
+</div>
+{% endblock %}

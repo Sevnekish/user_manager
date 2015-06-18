@@ -10,7 +10,9 @@
     {{ include('TKUserManagerBundle:User:_user_form.html.twig') }}
 
 
-    <a href="{{ path('user') }}">
-        Back to the list
-    </a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+      <a href="{{ path('user') }}">
+          Back to the list
+      </a>
+    {% endif %}
 {% endblock %}

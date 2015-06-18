@@ -6,10 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use TK\UserManagerBundle\Entity\UserAddress;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * User
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var integer
@@ -42,6 +45,11 @@ class User
     private $password;
 
     /**
+     * @var string
+     */
+    private $salt;
+
+    /**
      * @var \DateTime
      */
     private $createdAt;
@@ -66,7 +74,8 @@ class User
      */
     public function __construct()
     {
-        $this->userAddresses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->userAddresses = new ArrayCollection();
+        $this->setSalt('');
     }
 
     /**
@@ -195,6 +204,24 @@ class User
     }
 
     /**
+     * @return string The salt.
+     */
+    public function getSalt()
+    {
+        // return $this->salt;
+        return null;
+
+    }
+ 
+    /**
+     * @param string $value The salt.
+     */
+    public function setSalt($value)
+    {
+        $this->salt = $value;
+    }
+
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -319,6 +346,7 @@ class User
         return $this->userRole;
     }
 
+
     /**
      * @ORM\PrePersist
      */
@@ -334,5 +362,39 @@ class User
     public function setUpdatedAtValue()
     {
         $this->updatedAt = new \DateTime('now');
+    }
+
+    /**
+     * 
+     * @return array An array of Role objects
+     */
+    public function getRoles()
+    {
+        $role = $this->userRole->getName();
+        return array($role);
+    }
+
+    /**
+     * @return string The username.
+     */
+    public function getUsername()
+    {
+        return $this->email;
+    }
+    
+    /**
+     * @param string $value The username.
+     */
+    public function setUsername($email)
+    {
+        $this->email = $value;
+    }
+
+    public function eraseCredentials(){
+    }
+
+    public function equals(UserInterface $user)
+    {
+        return md5($this->getUsername()) == md5($user->getUsername());
     }
 }

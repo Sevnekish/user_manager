@@ -8,17 +8,42 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <!-- <a href="/" class="navbar-brand"><i class="fa fa-arrows-v"></i>Tiny Shop</a> -->
-      <a href="{{ path('home') }}" class="navbar-brand"><i class="fa fa-users"></i></a>
+      
     </div>
     <div class="collapse navbar-collapse" id="responsive-menu">
 
       <ul class="nav navbar-nav navigation navmenu">
         <li><a href="{{ path('home') }}">Home</a></li>
+          
+          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+              <li><a href="{{ path('user') }}"><i class="fa fa-users"></i> Users list</a></li>
+          {% endif %}
+          
       </ul>
       <ul class="nav navbar-nav navbar-right navigation">
 
-        <!-- if not user -->
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-user"></i> {{ app.user.email }}
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="{{ path('user_show', { 'id': app.user.id }) }}">
+                     <i class="fa fa-pencil"></i> Profile
+                  </a>
+                </li>
+
+                <li class="divider" ></li>
+                
+                <li>
+                  <a href="{{ path('logout') }}">
+                    <i class="fa fa-sign-out"></i> Log out
+                  </a>
+                </li>
+              </ul>
+            </li>
+        {% else %}
           <li class="dropdown">
 
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -26,7 +51,7 @@
             </a>
             <ul class="dropdown-menu">
               <li>
-                <a href="#{# {{ path('session_new') }} #}">Sign in</a>
+                <a href="{{ path('_security_login') }}">Sign in</a>
               </li>
 
               <li class="divider" ></li>
@@ -37,6 +62,8 @@
             </ul>
 
           </li>
+        {% endif %}
+          
         <!--  -->
 
         <!-- if user -->

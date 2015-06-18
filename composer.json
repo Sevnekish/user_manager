@@ -28,7 +28,8 @@
         "fortawesome/font-awesome":             "4.3.0",
         "oyejorge/less.php":                    "~1.5",
         "twitter/bootstrap":                    "*",
-        "components/jquery":                    "1.9.1"
+        "components/jquery":                    "1.9.1",
+        "symfony/security":                     "^2.7",
 
     },
     "require-dev": {

@@ -12,6 +12,8 @@
     {% include('TKUserManagerBundle:Layouts:_header.html.twig') %}
 
     <div class="container">
+      {% include('TKUserManagerBundle:Layouts:_messages.html.twig') %}
+
       {% block content %}{% endblock %}
 
       {% include('TKUserManagerBundle:Layouts:_footer.html.twig') %}

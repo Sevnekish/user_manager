@@ -19,8 +19,7 @@ class StaticPagesController extends Controller
      */
     public function homeAction()
     {
-        return $this->render('TKUserManagerBundle:StaticPages:home.html.twig', array(
-                // ...
-            ));    }
+        return array();
+    }
 
 }

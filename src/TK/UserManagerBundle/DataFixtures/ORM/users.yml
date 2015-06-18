@@ -7,7 +7,7 @@ TK\UserManagerBundle\Entity\User:
     password:  tonhanks123
     createdAt: <date()>
     updatedAt: <date()>
-    userRole:  @role_admin
+    userRole:  @role_user
 
   user{2..100}:
     firstName: <name()>

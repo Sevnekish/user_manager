@@ -4,10 +4,12 @@ namespace TK\UserManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Security\Core\Role\RoleInterface;
+
 /**
  * UserRole
  */
-class UserRole
+class UserRole implements RoleInterface
 {
     /**
      * @var integer
@@ -168,5 +170,13 @@ class UserRole
     public function setUpdatedAtValue()
     {
         $this->updatedAt = new \DateTime('now');
+    }
+
+    /**
+     * @return string The role.
+     */
+    public function getRole()
+    {
+        return $this->getName();
     }
 }

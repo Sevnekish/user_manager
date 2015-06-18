@@ -1,0 +1,13 @@
+{% for flashMessage in app.session.flashbag.get('messages') %}
+  <div class="container">
+    {% for type, messages_array in flashMessage %}
+      <div class="alert alert-{{ type }}" role="alert">
+        <ul id="messages">
+          {% for message in messages_array %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}

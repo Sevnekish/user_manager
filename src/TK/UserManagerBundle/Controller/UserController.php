@@ -14,6 +14,8 @@ use TK\UserManagerBundle\Form\UserType;
 use TK\UserManagerBundle\Entity\UserAddress;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+
 /**
  * User controller.
  *
@@ -74,8 +76,8 @@ class UserController extends Controller
   public function createAction(Request $request)
   {
     $entity = new User();
-    $form   = $this->createCreateForm($entity);
 
+    $form = $this->createCreateForm($entity);
 
     $form->handleRequest($request);
 
@@ -83,6 +85,10 @@ class UserController extends Controller
       $em = $this->getDoctrine()->getManager();
       $em->persist($entity);
       $em->flush();
+
+      $this->addFlash(
+                  'messages', ['success' => ['User has been added successfully!']]
+      );
 
       return $this->redirect($this->generateUrl('user_show', array('id' => $entity->getId())));
     }
@@ -129,7 +135,10 @@ class UserController extends Controller
     $entity = $em->getRepository('TKUserManagerBundle:User')->find($id);
 
     if (!$entity) {
-      throw $this->createNotFoundException('Unable to find User entity.');
+      $this->addFlash(
+                  'messages', ['danger' => ['Unable to find User with id = ' . $id]]
+      );
+      return $this->redirect($this->generateUrl('user_show'));
     }
 
     $deleteForm = $this->createDeleteForm($id);
@@ -154,7 +163,10 @@ class UserController extends Controller
     $entity = $em->getRepository('TKUserManagerBundle:User')->find($id);
 
     if (!$entity) {
-      throw $this->createNotFoundException('Unable to find User entity.');
+      $this->addFlash(
+                  'messages', ['danger' => ['Unable to find User with id = ' . $id]]
+      );
+      return $this->redirect($this->generateUrl('user_show'));
     }
 
     $editForm   = $this->createEditForm($entity);
@@ -182,7 +194,10 @@ class UserController extends Controller
     $entity = $em->getRepository('TKUserManagerBundle:User')->find($id);
 
     if (!$entity) {
-      throw $this->createNotFoundException('Unable to find User entity.');
+      $this->addFlash(
+                  'messages', ['danger' => ['Unable to find User with id = ' . $id]]
+      );
+      return $this->redirect($this->generateUrl('user_show'));
     }
 
     $originalUserAddresses = new ArrayCollection();
@@ -213,6 +228,9 @@ class UserController extends Controller
 
       $em->persist($entity);
       $em->flush();
+      $this->addFlash(
+                  'messages', ['success' => ['User has been updated successfully!']]
+      );
 
       return $this->redirect($this->generateUrl('user_show', array('id' => $entity->getId())));
     }
@@ -239,7 +257,10 @@ class UserController extends Controller
       $entity = $em->getRepository('TKUserManagerBundle:User')->find($id);
 
       if (!$entity) {
-        throw $this->createNotFoundException('Unable to find User entity.');
+        $this->addFlash(
+                    'messages', ['danger' => ['Unable to find User with id = ' . $id]]
+        );
+        return $this->redirect($this->generateUrl('user_show'));
       }
 
       $em->remove($entity);
