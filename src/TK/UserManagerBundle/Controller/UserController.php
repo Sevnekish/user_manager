@@ -252,10 +252,21 @@ class UserController extends Controller
 
     $form = $this->createDeleteForm($id);
     $form->handleRequest($request);
+    $securityContext = $this->get('security.context');
     // destroy session before remove entity
-    $this->get('security.context')->setToken(null);
-    $this->get('request')->getSession()->invalidate();
-    
+    if($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+        $token = $securityContext->getToken();
+        $current_user = $token->getUser();
+
+        if ($id == $current_user->getId()) {
+          
+          $securityContext->setToken(null);
+          $request->getSession()->invalidate();
+          // echo '<pre>';
+          // exit(\Doctrine\Common\Util\Debug::dump($current_user));
+        }
+    }
+    // echo 'stop';exit;
 
     if ($form->isValid()) {
       $em = $this->getDoctrine()->getManager();
