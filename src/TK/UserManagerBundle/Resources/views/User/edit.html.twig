@@ -5,16 +5,19 @@
 {% endblock %}
 
 {% block content -%}
-    <h1>User edit</h1>
+    {% set panelTitle = "Edit profile" %}
 
     {{ include('TKUserManagerBundle:User:_user_form.html.twig') }}
     
-    {# {{ form(delete_form) }} #}
-    {{ form_start(delete_form) }}
-    {{ form_row(delete_form.submit, {'attr': {'class': 'btn btn-danger btn-md delete'}}) }}
-    {{ form_end(delete_form) }}
+    <div class="row text-center">
+        {# {{ form(delete_form) }} #}
+        {{ form_start(delete_form) }}
+        {{ form_row(delete_form.submit, {'attr': {'class': 'btn btn-danger btn-md delete'}}) }}
+        {{ form_end(delete_form) }}
 
-  <a href="{{ path('user') }}">
-    Back to the list
-  </a>
+      <a href="{{ path('user') }}">
+        Back to the list
+      </a>
+    </div>
+
 {% endblock %}

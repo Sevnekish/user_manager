@@ -1,26 +1,39 @@
-{{ form_start(form) }}
 
-  {{ form_row(form.firstName) }}
-  {{ form_row(form.lastName) }}
-  {{ form_row(form.age) }}
-  {{ form_row(form.email) }}
-  {{ form_row(form.password.first) }}
-  {{ form_row(form.password.second) }}
-  {{ form_row(form.userRole) }}
-
-  <label>Addresses</label>
-
-  <ul class="userAddresses" data-prototype="{{ form_widget(form.userAddresses.vars.prototype)|e }}">
-    {% for userAddress in form.userAddresses %}
-      <li class="userAddress">
-        <div class="row">
-          <div class="col-md-2 zip">{{ form_row(userAddress.zip) }}</div>
-          <div class="col-md-4 city">{{ form_row(userAddress.city) }}</div>
-          <div class="col-md-4 address">{{ form_row(userAddress.address) }}</div>
-          <div class="col-md-2 addressButtons"></div>
+<div class="row">
+  <div id="loginbox" class="col-md-10 col-md-offset-1">
+    <div class="panel panel-info" >
+        <div class="panel-heading">
+          <h3>{{ panelTitle }}</h3>
         </div>
-      </li>
-    {% endfor %}
-  </ul>
-  {{ form_row(form.submit, {'attr': {'class': 'btn btn-success btn-md'}}) }}
-{{ form_end(form) }}
+
+        <div id="login-body" class="panel-body" >
+          {{ form_start(form) }}
+
+            {{ form_row(form.firstName) }}
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.age) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.password.first) }}
+            {{ form_row(form.password.second) }}
+            {{ form_row(form.userRole) }}
+
+            <label>Addresses</label>
+
+            <ul class="userAddresses" data-prototype="{{ form_widget(form.userAddresses.vars.prototype)|e }}">
+              {% for userAddress in form.userAddresses %}
+                <li class="userAddress">
+                  <div class="row">
+                    <div class="col-md-2 zip">{{ form_row(userAddress.zip) }}</div>
+                    <div class="col-md-4 city">{{ form_row(userAddress.city) }}</div>
+                    <div class="col-md-4 address">{{ form_row(userAddress.address) }}</div>
+                    <div class="col-md-2 addressButtons"></div>
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+            {{ form_row(form.submit, {'attr': {'class': 'btn btn-success btn-md'}}) }}
+          {{ form_end(form) }}
+        </div>
+    </div>
+  </div>
+</div>

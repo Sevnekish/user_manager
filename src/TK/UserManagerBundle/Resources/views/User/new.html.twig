@@ -5,8 +5,7 @@
 {% endblock %}
 
 {% block content -%}
-    <h1>Sign up</h1>
-
+    {% set panelTitle = "Sign up" %}
     {{ include('TKUserManagerBundle:User:_user_form.html.twig') }}
 
 

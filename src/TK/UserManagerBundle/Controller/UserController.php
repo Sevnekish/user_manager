@@ -90,7 +90,7 @@ class UserController extends Controller
                   'messages', ['success' => ['User has been added successfully!']]
       );
 
-      return $this->redirect($this->generateUrl('user_show', array('id' => $entity->getId())));
+      return $this->redirect($this->generateUrl('home'));
     }
 
     return array(
@@ -249,8 +249,13 @@ class UserController extends Controller
    */
   public function deleteAction(Request $request, $id)
   {
+
     $form = $this->createDeleteForm($id);
     $form->handleRequest($request);
+    // destroy session before remove entity
+    $this->get('security.context')->setToken(null);
+    $this->get('request')->getSession()->invalidate();
+    
 
     if ($form->isValid()) {
       $em = $this->getDoctrine()->getManager();
